@@ -1,0 +1,4 @@
+{
+  "cSpell.words": ["tailwindcss", "vitejs"],
+  "css.customData": [".vscode/tailwind.json"]
+}
