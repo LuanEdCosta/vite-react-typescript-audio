@@ -1,9 +1,40 @@
+import { useState } from "react";
 import { FiPlay } from "react-icons/fi";
 
 import "./App.css";
 
 export const App: React.FC = () => {
-  const handleStartRecordingAudio = () => {};
+  const [audioSource, setAudioSource] = useState<string>();
+
+  const handleStartRecordingAudio = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      const mediaRecorder = new MediaRecorder(mediaStream);
+      mediaRecorder.start();
+
+      const chunks: Blob[] = [];
+
+      mediaRecorder.addEventListener("dataavailable", (e) => {
+        chunks.push(e.data);
+      });
+
+      mediaRecorder.addEventListener("stop", () => {
+        const blob = new Blob(chunks);
+        const audio = URL.createObjectURL(blob);
+        setAudioSource(audio);
+      });
+
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 5000);
+    } catch (e) {
+      const error = e as Error;
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="h-screen py-8 px-4 bg-gray-900 text-white transition-colors">
@@ -19,6 +50,12 @@ export const App: React.FC = () => {
           <span className="mr-2">Record Audio</span>
           <FiPlay />
         </button>
+
+        {audioSource && (
+          <audio className="mt-8" controls>
+            <source src={audioSource} type="audio/mpeg"></source>
+          </audio>
+        )}
       </div>
     </div>
   );
