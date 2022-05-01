@@ -1,4 +1,10 @@
 {
-  "cSpell.words": ["dataavailable", "nodownload", "tailwindcss", "vitejs"],
+  "cSpell.words": [
+    "dataavailable",
+    "nodownload",
+    "predeploy",
+    "tailwindcss",
+    "vitejs"
+  ],
   "css.customData": [".vscode/tailwind.json"]
 }
